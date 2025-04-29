@@ -30,7 +30,11 @@ class CrossedDipoleTrap:
       U_0 = beam1depth + beam2depth
       return(U_0)
 
-    def beam_frequency_in_prop_direction(powerarray, waist, )
+    def beam_frequency_in_prop_direction(powerarray, waist, f_U_array = 1.0, atomicpolarizability = alpha_natural):
+        depth = single_beam_depth(powerarray, waist, f_U_array, atomicpolarizability)
+        z_R = Rayleigh(waist)
+        omega_squared = 2*depth/z_R**2
+        return(np.sqrt())
 
     def beam_frequency_in_mod_direction()
 
