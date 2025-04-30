@@ -9,6 +9,7 @@ class CrossedDipoleTrap:
     c = cLight
     alpha_si = 7.94e-6*h
     alpha_natural = alpha_si/(c*epsilon_0)
+    m = 86.909180520 * atomic_mass
 
     def __init__(self, wavelength, alpha_natural, mass, k_Boltz, scattering_length):
         self.wavelength = wavelength
@@ -30,15 +31,30 @@ class CrossedDipoleTrap:
       U_0 = beam1depth + beam2depth
       return(U_0)
 
-    def beam_frequency_in_prop_direction(powerarray, waist, f_U_array = 1.0, atomicpolarizability = alpha_natural):
+    def beam_frequency_squared_in_prop_direction(powerarray, waist, f_U_array = 1.0, atomicpolarizability = alpha_natural, mass = m):
         depth = single_beam_depth(powerarray, waist, f_U_array, atomicpolarizability)
         z_R = Rayleigh(waist)
-        omega_squared = 2*depth/z_R**2
-        return(np.sqrt())
+        omega_squared = 2*depth/(mass*z_R**2)
+        return(omega_squared)
 
-    def beam_frequency_in_mod_direction()
+    def beam_frequency_squared_in_mod_direction(powerarray, waist, f_w_array = 1.0, atomicpolarizability = alpha_natural, mass = m):
+        omega_squared = (8*atomicpolarizability*powerarray*f_w_array)/(pi*mass*waist**4)
+        return(omega_squared)
 
-    def 
+    def beam_frequency_squared_in_vert(powerarray, waist, f_U_array = 1.0, atomicpolarizability = alpha_natural, mass = m):
+        depth = single_beam_depth(powerarray, waist, f_U_array, atomicpolarizability)
+        omega_squared = 4*depth/(mass*waist**2)
+        return(omega_squared)
+
+    def omega_x(beam1modomegasquared, beam2propomegasquared):
+        return(np.sqrt(beam1modomegasquared + beam2propomegasquared))
+
+    def omega_y(beam1vertsquared, beam2vertsquared):
+        return(np.sqrt(beam1vertsquared+beam2vertsquared))
+
+    def omega_z():
+
+        
 
 
   
