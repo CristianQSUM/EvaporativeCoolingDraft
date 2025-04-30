@@ -52,8 +52,58 @@ class CrossedDipoleTrap:
     def omega_y(beam1vertsquared, beam2vertsquared):
         return(np.sqrt(beam1vertsquared+beam2vertsquared))
 
-    def omega_z():
+    def omega_z(beam1propomegasquared, beam2modomegasquared):
+        return(np.sqrt(beam1propomegasquared + beam2modomegasquared))
 
+    def geometric_mean_freq(omegax, omegay, omegaz):
+        return(np.cbrt(omegax*omegay*omegaz))
+
+    def omega_bar_dot_over_omega_bar(omegax, omegay, omegaz):
+        omegabar = geometric_mean_freq(omegax, omegay, omegaz)
+        return(np.gradient(omegabar)/omegabar)
+
+class NTdependentfunctions:
+    import numpy as np
+    import scipy.constants as constants
+    from scipy.constants import pi, speed_of_light as cLight, h, atomic_mass, Boltzmann, epsilon_0, hbar
+    a_0 = constants.physical_constants['Bohr radius'][0]
+    a = 98*a_0
+    m = 86.909180520 * atomic_mass
+
+    def eta_ev(T, trap_depth, k_Boltz = Boltzmann):
+        eta = trap_depth/(k_Boltz*T)
+        return(eta)
+
+    def peak_density(N, T, geometric, depth, mass = m): 
+        '''
+        Under the approx the peak density is 
+        Phase Space Density divided by Thermal DeBroglie Wavelength Cubed
+        '''
+        eta = eta_ev(T, depth)
+        n_0 = ((mass/(2*pi*depth))**1.5)*(geometric**3)*N*eta**1.5
+        return(n_0)
+
+    def scattering_cross_section(scatteringlength=a):
+        return(8*pi*a**2)
+        
+    def mean_speed(T, mass=m, k_Boltz=Boltzmann):
+        v_bar = np.sqrt(8*k_Boltz*T/(pi*mass))
+        return(v_bar)
+        
+    def Gamma_el(N, T, trap_depth, geometric_frequency, mass=m):
+        n_0 = peak_density(N, T, trap_depth, geometric_frequency_array, mass)
+        sigma = scattering_cross_section()
+        v_bar = mean_speed(T, mass)
+        return(n_0*sigma*v_bar)
+    
+    def Gamma_ev(N, T, trap_depth, geometric_frequency, mass=m):
+        eta = eta_ev(T, trap_depth)
+        evaporationrate = Gamma_el(N, T, trap_depth, geometric_frequency, mass) * (eta - 4) * np.exp(-eta)
+        return(evaporationrate)
+        
+    def Gamma_3b():
+
+    def Gamma_sc():
         
 
 
