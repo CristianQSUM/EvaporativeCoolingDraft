@@ -69,7 +69,12 @@ class NTdependentfunctions:
     a_0 = constants.physical_constants['Bohr radius'][0]
     a = 98*a_0
     m = 86.909180520 * atomic_mass
-
+    taulife = 26.2348E-9
+    naturallinewidth = 1/(2*pi*taulife)
+    wavelength = 1064e-9
+    Delta = cLight/wavelength - cLight/780e-9 #detuning
+    E_r = (h**2/wavelength**2)/(2*m)
+    
     def eta_ev(T, trap_depth, k_Boltz = Boltzmann):
         eta = trap_depth/(k_Boltz*T)
         return(eta)
@@ -101,10 +106,35 @@ class NTdependentfunctions:
         evaporationrate = Gamma_el(N, T, trap_depth, geometric_frequency, mass) * (eta - 4) * np.exp(-eta)
         return(evaporationrate)
         
-    def Gamma_3b():
+    def Gamma_3b(N, T, depth, geometric, mass = m, K_3 = 4.3e-41):
+        '''
+        The true rate is (K_3*volumeintegral(density^3))/N, K_3 has units of [m^6/s]
+        '''
+        density = peak_density(N, T, geometric, depth, mass)
+        approx3bodayrate = (K_3)*density**2
+        return(approx3bodyrate)
 
-    def Gamma_sc():
+    def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth):
+        SpontRate = Gamma*trapdepth/(hbar*detuning)
+        return(SpontRate)
+
+    def Gamma_bg(rate=0.1):
+        '''
+        The background lifetime must be independently measured, this rate is 1/backgroundlifetime
+        '''
+        return(rate)
         
+    def N_dot(N, T, trap_depth, geometric_frequency, mass=m, K_3 = 4.3e-41):
+      dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency) + Gamma_3b(N, T, trap_depth, geometric_frequency, mass, K_3) + Gamma_bg())*N
+      return(dNdt)
 
-
-  
+    def T_dot(N, T, ModulationTerm, trap_depth, geometric_frequency, mass=m, K_3 = 4.3e-41, RecoilEnergy=E_r):
+        #Modulation term is omega_bar_dot_over_omega_bar
+        gammaev = Gamma_ev(N, T, trap_depth, geometric_frequency)
+        gamma3b = Gamma_3b(N, T, trap_depth, geometric_frequency, mass, K_3)
+        gammasc = Gamma_sc(trapdepth)
+        
+        eta = eta_ev(T, trap_depth)
+        Efficiency = (eta + (eta-5)/(eta-4) - 3)
+        dTdt = -((gammaev/3)*Effficiency - gamma3b/3 - ModulationTerm)*T + (gammasc*RecoilEnergy)/k_Boltz
+        return(dTdt)
