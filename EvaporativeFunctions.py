@@ -10,13 +10,30 @@ class CrossedDipoleTrap:
     alpha_si = 7.94e-6*h
     alpha_natural = alpha_si/(c*epsilon_0)
     m = 86.909180520 * atomic_mass
+    a_0 = constants.physical_constants['Bohr radius'][0]
+    a = 98*a_0
 
-    def __init__(self, wavelength, alpha_natural, mass, k_Boltz, scattering_length):
+    def __init__(self, timearray, power1, power2, waist1, waist2, fU1 = 1.0, fU2 = 1.0, fw1 = 1.0, fw2 = 1.0,
+                 wavelength = 1064e-9, alpha_natural = alpha_natural, mass = m, k_Boltz = Boltzmann, scattering_length = a):
         self.wavelength = wavelength
         self.alpha_natural = alpha_natural
         self.mass = mass
         self.k_Boltz = k_Boltz
         self.scattering_length = scattering_length
+        self.waist = waist
+        self.timearray = timearray
+        self.power1 = power1
+        self.power2 = power2
+        self.waist1 = waist1
+        self.waist2 = waist2
+        self.beam1depth = single_beam_depth(power1, waist1, fU1)
+        self.beam2depth = single_beam_depth(power2, waist2, fU2)
+        self.trapdepth = trapdepth(beam1depth, beam2depth)
+        self.omegax = omega_x(beam_frequency_squared_in_mod_direction(power1, waist1, fU1), beam_frequency_squared_in_prop_direction(power2, waist2, fU2))
+        self.omegay = omega_y(beam_frequency_squared_in_vert(power1, waist1, fU1), beam_frequency_squared_in_vert(power2, waist2, fU2))
+        self.omegaz = omega_z(beam_frequency_squared_in_prop_direction(power1, waist1, fU1), beam_frequency_squared_in_mod_direction(power2, waist2, fU2))
+        self.omegabar = geometric_mean_freq(omegax, omegay, omegaz)
+        self.trapfrequencymodulation = omega_bar_dot_over_omega_bar(omegax, omegay, omegaz)
     
     def Rayleigh(waist, l=1064e-9):
         z_r = pi*waist**2/l
