@@ -115,7 +115,7 @@ def mean_speed(T, mass=m, k_Boltz=Boltzmann):
     return(v_bar)
         
 def Gamma_el(N, T, trap_depth, geometric_frequency, mass=m):
-    n_0 = peak_density(N, T, trap_depth, geometric_frequency_array, mass)
+    n_0 = peak_density(N, T, trap_depth, geometric_frequency, mass)
     sigma = scattering_cross_section()
     v_bar = mean_speed(T, mass)
     return(n_0*sigma*v_bar)
@@ -151,7 +151,7 @@ def T_dot(N, T, ModulationTerm, trap_depth, geometric_frequency, mass=m, K_3 = 4
     #Modulation term is omega_bar_dot_over_omega_bar
     gammaev = Gamma_ev(N, T, trap_depth, geometric_frequency)
     gamma3b = Gamma_3b(N, T, trap_depth, geometric_frequency, mass, K_3)
-    gammasc = Gamma_sc(trapdepth)
+    gammasc = Gamma_sc(trap_depth)
         
     eta = eta_ev(T, trap_depth)
     Efficiency = (eta + (eta-5)/(eta-4) - 3)
