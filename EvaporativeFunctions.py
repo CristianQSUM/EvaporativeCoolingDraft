@@ -134,7 +134,8 @@ def Gamma_3b(N, T, depth, geometric, mass = m, K_3 = 4.3e-41):
     return(approx3bodyrate)
 
 def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth):
-    SpontRate = Gamma*trapdepth/(hbar*detuning)return(SpontRate)
+    SpontRate = Gamma*trapdepth/(hbar*detuning)
+    return(SpontRate)
 
 def Gamma_bg(rate=0.1):
     '''
