@@ -20,7 +20,6 @@ class CrossedDipoleTrap:
         self.mass = mass
         self.k_Boltz = k_Boltz
         self.scattering_length = scattering_length
-        self.waist = waist
         self.timearray = timearray
         self.power1 = power1
         self.power2 = power2
