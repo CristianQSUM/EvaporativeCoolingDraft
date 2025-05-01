@@ -93,6 +93,7 @@ naturallinewidth = 1/(2*pi*taulife)
 wavelength = 1064e-9
 Delta = cLight/wavelength - cLight/780e-9 #detuning
 E_r = (h**2/wavelength**2)/(2*m)
+k_Boltz = Boltzmann
     
 def eta_ev(T, trap_depth, k_Boltz = Boltzmann):
     eta = trap_depth/(k_Boltz*T)
