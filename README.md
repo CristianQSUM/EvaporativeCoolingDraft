@@ -16,7 +16,7 @@ Demo.py: A sample script using the functions demonstrating trap evolution and ev
 
 The tunable/optimizable parameters are the power ramp of each beam, the waists of each beam, the modulation of each beam, the time taken, and the initial atom number and temperature.
 
-After the necessary import and constants, you are able to set up an arbitrary time scale, power array and waist for each beam. None of the values set are optimized (at the moment the power array in Demo.py is an exponential decay with $P_{initial } = 5 W, P_final = 0.5W$ and the waists are constant and equal, it is possible to add power dependent waists). 
+After the necessary import and constants, you are able to set up an arbitrary time scale, power array and waist for each beam. None of the values set are optimized (at the moment the power array in Demo.py is an exponential decay with $P_{initial} = 5 W, P_{final} = 0.5W$ and the waists are constant and equal, it is possible to add power dependent waists). 
 
 The unmodulated trap depths and frequencies are then calculated and stored as arrays.
 
