@@ -66,18 +66,23 @@ class CrossedDipoleTrap:
         return(omega_squared)
 
     def omega_x(self, beam1modomegasquared, beam2propomegasquared):
+        import numpy as np
         return(np.sqrt(beam1modomegasquared + beam2propomegasquared))
 
     def omega_y(self, beam1vertsquared, beam2vertsquared):
+        import numpy as np
         return(np.sqrt(beam1vertsquared+beam2vertsquared))
 
     def omega_z(self, beam1propomegasquared, beam2modomegasquared):
+        import numpy as np
         return(np.sqrt(beam1propomegasquared + beam2modomegasquared))
 
     def geometric_mean_freq(self, omegax, omegay, omegaz):
+        import numpy as np
         return(np.cbrt(omegax*omegay*omegaz))
 
     def omega_bar_dot_over_omega_bar(self, omegax, omegay, omegaz):
+        import numpy as np
         omegabar = self.geometric_mean_freq(omegax, omegay, omegaz)
         return(np.gradient(omegabar)/omegabar)
         
