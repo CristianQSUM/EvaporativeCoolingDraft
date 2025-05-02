@@ -1,4 +1,5 @@
 #SpatialModulation.py
+#Needs to be refined, in practice f_U and f_omega curves are found experimentally
 
 import numpy as np
 from scipy.integrate import simps
