@@ -2,7 +2,6 @@
 import numpy as np
 
 class CrossedDipoleTrap:
-    import numpy as np
     import scipy.constants as constants
     from scipy.constants import pi, speed_of_light as cLight, h, atomic_mass, Boltzmann, epsilon_0, hbar
     
