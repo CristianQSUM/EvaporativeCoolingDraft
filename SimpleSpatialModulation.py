@@ -2,7 +2,7 @@
 #Needs to be refined, in practice f_U and f_omega curves are found experimentally
 
 import numpy as np
-from scipy.integrate import simps
+from scipy.integrate import simpson as simps
 from scipy.constants import pi
 
 def decreasingh(timearray, h0, h_final):
