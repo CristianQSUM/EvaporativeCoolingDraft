@@ -6,8 +6,15 @@ class CrossedDipoleTrap:
     from scipy.constants import pi, speed_of_light as cLight, h, atomic_mass, Boltzmann, epsilon_0, hbar
     
     c = cLight
-    alpha_si = 7.94e-6*h
-    alpha_natural = alpha_si/(c*epsilon_0)
+
+    #calculations for atomic polarizability, alpha, are based on https://steck.us/alkalidata/rubidium87numbers.1.6.pdf
+    alpha_ground_si = 7.94e-6*h #Hz/(V/m)^2 
+    omega_res_THz = 2*pi*377.1074635 #D1 line (THz)
+    omega_res_Hz = omega_res_THz*1e12
+    wavelength = 1064e-9 #m
+    omega_laser = 2*pi*c/wavelength
+    alpha_detuned = (omega_res_Hz**2 * alpha_ground_si)/(omega_res_Hz**2 - omega_laser**2)
+    alpha_natural = alpha_detuned/(c*epsilon_0)
     m = 86.909180520 * atomic_mass
     a_0 = constants.physical_constants['Bohr radius'][0]
     a = 98*a_0
