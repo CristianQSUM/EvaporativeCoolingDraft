@@ -12,8 +12,14 @@ wavelength = 1064e-9
 Delta = cLight/wavelength - cLight/780e-9 #detuning
 E_r = (h**2/wavelength**2)/(2*m)
 k_Boltz = Boltzmann
+c = cLight
+alpha_ground_si = 7.94e-6*h #Hz/(V/m)^2 
+omega_res_THz = 2*pi*377.1074635 #D1 line (THz)
+omega_res_Hz = omega_res_THz*1e12
+omega_laser = 2*pi*c/wavelength
+alpha_detuned = (omega_res_Hz**2 * alpha_ground_si)/(omega_res_Hz**2 - omega_laser**2)
+alpha_natural = alpha_detuned/(c*epsilon_0)
 
-    
 def eta_ev(T, trap_depth, k_Boltz = Boltzmann):
     eta = trap_depth/(k_Boltz*T)
     return(eta)
@@ -53,7 +59,7 @@ def Gamma_3b(N, T, depth, geometric, mass = m, K_3 = 4.3e-41):
     approx3bodyrate = (K_3)*density**2
     return(approx3bodyrate)
 
-def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = 7.94e-6*h):
+def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = alpha_detuned):
     #At the center, the scaterring rate varies as I(r)
     omega_L = 2*pi/(1064e-9)
     omega_0 = -detuning + omega_L
