@@ -25,7 +25,7 @@ k_Boltz = Boltzmann
 #Set Power Arrays, Time Scale and Beam Waists
 t_array = np.linspace(0, 1, 1000)
 P_initial = 5  #W
-P_final = 0.5  #W
+P_final = 2.5  #W
 P_1_array = P_initial * np.exp(np.log(P_final/P_initial) * (t_array - t_array[0]) / (t_array[-1] - t_array[0]))
 P_2_array = P_1_array.copy()
 W_1 = W_2 = 50e-6 #m
@@ -57,10 +57,10 @@ h_min_1 = 0 #minimum spatial modulation
 h_min_2 = 0 #minimum spatial modulation
 h_array_1 = decreasingh(t_array, h_max_1, h_min_1)
 h_array_2 = decreasingh(t_array, h_max_2, h_min_2)
-f_U_1 = f_U(W_1, unmodbeam1depth, t_array, h_array_1, f=AOMfreq)
-f_U_2 = f_U(W_2, unmodbeam2depth, t_array, h_array_2, f=AOMfreq)
-f_omega_1 = f_omega(W_1, unmodbeam1depth, t_array, h_array_1, f=AOMfreq)
-f_omega_2 = f_omega(W_2, unmodbeam2depth, t_array, h_array_2, f=AOMfreq)
+f_U_1 = f_U(W_1, h_array_1, AOMfreq)
+f_U_2 = f_U(W_2, h_array_2, f=AOMfreq)
+f_omega_1 = f_omega(W_1, h_array_1, AOMfreq)
+f_omega_2 = f_omega(W_2, h_array_2, AOMfreq)
 
 #Calculate Spatially Modulated depths and frequencies with same power ramp
 modtrap = CrossedDipoleTrap(
