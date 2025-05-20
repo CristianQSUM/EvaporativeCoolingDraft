@@ -58,7 +58,7 @@ h_min_2 = 0 #minimum spatial modulation
 h_array_1 = decreasingh(t_array, h_max_1, h_min_1)
 h_array_2 = decreasingh(t_array, h_max_2, h_min_2)
 f_U_1 = f_U(W_1, h_array_1, AOMfreq)
-f_U_2 = f_U(W_2, h_array_2, f=AOMfreq)
+f_U_2 = f_U(W_2, h_array_2, AOMfreq)
 f_omega_1 = f_omega(W_1, h_array_1, AOMfreq)
 f_omega_2 = f_omega(W_2, h_array_2, AOMfreq)
 
