@@ -15,7 +15,7 @@ def mod_position(timearray, h, f=8e7):
 def f_U(w, h, modfreq=8e7, nSamples = 100): #increase nSamples for better accuracy at the cost of computation time
     from scipy.integrate import simpson as simps
     t_array = np.linspace(0, 1/modfreq, nSamples)
-    x_t = mod_position(t_array, h, f)
+    x_t = mod_position(t_array, h, modfreq)
     integrand = np.exp(-2 * x_t**2/w**2)
     f_u = modfreq*simps(integrand, t_array)
     return f_u
