@@ -51,13 +51,10 @@ def Gamma_ev(N, T, trap_depth, geometric_frequency, mass=m):
     evaporationrate = Gamma_el(N, T, trap_depth, geometric_frequency, mass) * (eta - 4) * np.exp(-eta)
     return(evaporationrate)
         
-def Gamma_3b(N, T, depth, geometric, mass = m, K_3 = 4.3e-41):
-    '''
-    The true rate is (K_3*volumeintegral(density^3))/N, K_3 has units of [m^6/s]
-    '''
+def Gamma_3b(N, T, depth, geometric, mass = m, L_3 = 4.3e-41, dparam = 1.5): #dparam = 1.5 for a harmonic trap
     density = peak_density(N, T, depth, geometric, mass)
-    approx3bodyrate = (K_3)*density**2
-    return(approx3bodyrate)
+    threebodyrate = np.power(3, -dparam)*(L_3)*density**2
+    return(threebodyrate)
 
 def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = alpha_detuned):
     #At the center, the scaterring rate varies as I(r)
@@ -76,8 +73,8 @@ def Gamma_bg(rate=0.1):
     '''
     return(rate)
         
-def N_dot(N, T, trap_depth, geometric_frequency, mass=m, K_3 = 4.3e-41):
-    dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency) + Gamma_3b(N, T, trap_depth, geometric_frequency, mass, K_3) + Gamma_bg())*N
+def N_dot(N, T, trap_depth, geometric_frequency, mass=m, L_3 = 4.3e-41):
+    dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency) + Gamma_3b(N, T, trap_depth, geometric_frequency, mass, L_3) + Gamma_bg())*N
     return(dNdt)
 
 def T_dot(N, T, ModulationTerm, trap_depth, geometric_frequency, mass=m, K_3 = 4.3e-41, RecoilEnergy=E_r):
