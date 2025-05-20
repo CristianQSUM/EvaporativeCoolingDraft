@@ -86,5 +86,5 @@ class CrossedDipoleTrap:
 
     def omega_bar_dot_over_omega_bar(self, omegax, omegay, omegaz):
         omegabar = self.geometric_mean_freq(omegax, omegay, omegaz)
-        return(np.gradient(omegabar)/omegabar)
+        return(np.gradient(omegabar, self.timearray)/omegabar)
         
