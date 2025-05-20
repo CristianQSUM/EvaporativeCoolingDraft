@@ -19,7 +19,7 @@ def f_U(w, h, modfreq=8e7, nSamples = 100): #increase nSamples for better accura
         t_array = np.linspace(0, 1/modfreq, nSamples)
         x_t = mod_position(t_array, hvalue, modfreq)
         integrand = np.exp(-2 * x_t**2/w**2)
-        f_u = modfreq*simps(y=integrand, x=t_array, axis = 1)
+        f_u = modfreq*simps(y=integrand, x=t_array, axis = 0)
         f_u_array.append(f_u)
     return f_u_array
 
@@ -30,7 +30,7 @@ def f_omega(w, h, f=8e7, nSamples=100): #w is waist, h is modulation amplitude
     for hvalue in h:
         x_t = mod_position(t_array, hvalue, f)
         integrand = ((16 * x_t**2 - 4 * w**2)/w**4) * np.exp(-2 * x_t**2/w**2)
-        average_curvature = f * simps(y=integrand, x=t_array, axis = 1)
+        average_curvature = f * simps(y=integrand, x=t_array, axis = 0)
         curvature_static = (-4/w**2)
         f_w = average_curvature/curvature_static
         f_w_array.append(f_w)
