@@ -3,22 +3,24 @@
 import numpy as np
 import scipy.constants as constants
 from scipy.constants import pi, speed_of_light as cLight, h, atomic_mass, Boltzmann, epsilon_0, hbar
-a_0 = constants.physical_constants['Bohr radius'][0]
-a = 98*a_0
-m = 86.909180520 * atomic_mass
-taulife = 26.2348E-9
-naturallinewidth = 1/(2*pi*taulife)
-wavelength = 1064e-9
-Delta = cLight/wavelength - cLight/780e-9 #detuning
-E_r = (h**2/wavelength**2)/(2*m)
-k_Boltz = Boltzmann
-c = cLight
-alpha_ground_si = 7.94e-6*h #Hz/(V/m)^2 
-omega_res_THz = 2*pi*377.1074635 #D1 line (THz)
-omega_res_Hz = omega_res_THz*1e12
-omega_laser = 2*pi*c/wavelength
-alpha_detuned = (omega_res_Hz**2 * alpha_ground_si)/(omega_res_Hz**2 - omega_laser**2)
-alpha_natural = alpha_detuned/(c*epsilon_0)
+a_0 = constants.physical_constants['Bohr radius'][0] #Bohr radius [m]
+a = 98*a_0 #s-wave scattering length [m] from https://arxiv.org/pdf/1204.1591
+m = 86.909180520 * atomic_mass #Rb-87 atomic mass [kg]
+taulife = 26.2348E-9 #excited-state lifetime [s]
+naturallinewidth = 1/(2*pi*taulife) #natural linewidth [Hz]
+wavelength = 1064e-9 #laser wavelength [m]
+Delta = cLight/wavelength - cLight/780e-9   #detuning ν_L - ν_0 [Hz]
+Delta_omega = 2*np.pi*Delta                 #angular detuning Δω [rad/s]
+Gamma_omega = 2*np.pi*naturallinewidth      #natural linewidth Γ [rad/s]
+E_r = (h**2/wavelength**2)/(2*m) #recoil energy [J]
+k_Boltz = Boltzmann #Boltzmann constant [J/K]
+c = cLight #speed of light [m/s]
+alpha_ground_si = 7.94e-6*h #ground-state static polarizability α_0 [J/(V/m)^2]
+omega_res_THz = 2*pi*377.1074635 #D1 line angular frequency ω_0 [rad/s * 10^12]
+omega_res_Hz = omega_res_THz*1e12 #D1 line angular frequency ω_0 [rad/s]
+omega_laser = 2*pi*c/wavelength #laser angular frequency ω_L [rad/s]
+alpha_detuned = (omega_res_Hz**2 * alpha_ground_si)/(omega_res_Hz**2 - omega_laser**2) #dynamic polarizability α(ω_L) [J/(V/m)^2]
+alpha_natural = alpha_detuned/(c*epsilon_0) #alternative form, currently not used
 
 def eta_ev(T, trap_depth, k_Boltz = Boltzmann):
     eta = trap_depth/(k_Boltz*T)
@@ -80,15 +82,17 @@ def Gamma_ev(N, T, trap_depth, geometric_frequency):
         
 def Gamma_3b(N, T, geometric, dparam = 1.5, L_3 = 4.3e-41, mass = m):
     '''
+    Returns per‑particle three‑body loss rate.
     The treatment for three-body loss is from the 2018 paper: https://arxiv.org/pdf/quant-ph/0602010
     The dparam = 1.5 for a harmonic trap, for anharmonic traps this must be edited
     L_3 is the value given in most experimental papers, Roy et. al made the choice of naming it K_3.
+    
     '''
     density = peak_density(N, T, geometric)
     threebodyrate = np.power(3, -dparam)*(L_3)*density**2
     return(threebodyrate)
 
-def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = alpha_detuned, om_L = omega_laser):
+def Gamma_sc(trapdepth, detuning = Delta_omega, Gamma = Gamma_omega, polarizability = alpha_detuned, om_L = omega_laser):
     #At the center, the scaterring rate varies as I(r)
     omega_L = om_L
     omega_0 = -detuning + omega_L
