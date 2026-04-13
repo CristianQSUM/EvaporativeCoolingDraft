@@ -88,9 +88,9 @@ def Gamma_3b(N, T, geometric, dparam = 1.5, L_3 = 4.3e-41, mass = m):
     threebodyrate = np.power(3, -dparam)*(L_3)*density**2
     return(threebodyrate)
 
-def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = alpha_detuned):
+def Gamma_sc(trapdepth, detuning = Delta, Gamma = naturallinewidth, polarizability = alpha_detuned, om_L = omega_laser):
     #At the center, the scaterring rate varies as I(r)
-    omega_L = 2*pi/(1064e-9)
+    omega_L = om_L
     omega_0 = -detuning + omega_L
     term1 = (pi*cLight**2)/(hbar * omega_0**3)
     term2 = (omega_L/omega_0)**3
