@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 #Assuming you have SimpleSpatialModulation.py, EvaporativeFunctions.py, CrossedDipoleTrap.py
 import EvaporativeFunctions as ef
-from SimpleSpatialModulation import decreasingh, mod_position, f_U, f_omega
+from SimpleSpatialModulation import f_U, f_omega
 from CrossedDipoleTrap import CrossedDipoleTrap
 
 a_0 = constants.physical_constants['Bohr radius'][0]
@@ -24,11 +24,12 @@ k_Boltz = Boltzmann
 
 #Set Power Arrays, Time Scale and Beam Waists
 t_array = np.linspace(0, 1, 1000)
-P_initial = 5  #W
-P_final = 2.5  #W
-P_1_array = P_initial * np.exp(np.log(P_final/P_initial) * (t_array - t_array[0]) / (t_array[-1] - t_array[0]))
+P_initial = 4.9  #W can be optimized
+P_final = 0.1  #W can be optimized
+rampparameter = 20 #can be optimized
+P_1_array = P_final + P_initial*np.exp(-rampparameter*t_array)#P_initial * np.exp(np.log(P_final/P_initial) * (t_array - t_array[0]) / (t_array[-1] - t_array[0]))
 P_2_array = P_1_array.copy()
-W_1 = W_2 = 50e-6 #m
+W_1 = W_2 = 50e-6 #m can be optimized
 
 
 #Calculated Un(spatially)modulated Depth and Frequencies, power ramp still exists
@@ -50,13 +51,23 @@ umodomega_bar_dot_over_omega_bar = unmodtrap.trapfrequencymodulation
 
 
 #Set Spatial Modulation parameters
+
+'''
+In this update (April 13th, 2026)
+We begin with no modulation, increase to max modulation
+and then ultimately stay at that modulation.
+'''
 AOMfreq = 8e7 #AOM frequency, Hz
 h_max_1 = 4*W_1 #maximum spatial modulation of beam 1, m
 h_max_2 = 4*W_2 #maximum spatial modulation of beam 2, m
 h_min_1 = 0 #minimum spatial modulation
 h_min_2 = 0 #minimum spatial modulation
-h_array_1 = decreasingh(t_array, h_max_1, h_min_1)
-h_array_2 = decreasingh(t_array, h_max_2, h_min_2)
+idx1 = t_array <= 0.2
+idx2 = (t_array > 0.2)
+h1 = np.linspace(h_min_1, h_max_1, idx1.sum())
+h2 =  np.linspace(h_min_2, h_max_2, idx2.sum())
+h_array_1 = np.concatenate([h1, h2])
+h_array_2 = h_array_1
 f_U_1 = f_U(W_1, h_array_1, AOMfreq)
 f_U_2 = f_U(W_2, h_array_2, AOMfreq)
 f_omega_1 = f_omega(W_1, h_array_1, AOMfreq)

@@ -92,16 +92,14 @@ def Gamma_3b(N, T, geometric, dparam = 1.5, L_3 = 4.3e-41, mass = m):
     threebodyrate = np.power(3, -dparam)*(L_3)*density**2
     return(threebodyrate)
 
-def Gamma_sc(trapdepth, detuning = Delta_omega, Gamma = Gamma_omega, polarizability = alpha_detuned, om_L = omega_laser):
-    #At the center, the scaterring rate varies as I(r)
-    omega_L = om_L
-    omega_0 = -detuning + omega_L
-    term1 = (pi*cLight**2)/(hbar * omega_0**3)
-    term2 = (omega_L/omega_0)**3
-    term3 = (Gamma/(-detuning) + Gamma/(detuning - 2*omega_0))**2
-    I_0 = 2*trapdepth/polarizability
-    SpontRate = term1*term2*term3*I_0
-    return(SpontRate)
+def Gamma_sc(trapdepth, detuning = Delta_omega, Gamma = Gamma_omega): 
+    """
+    Spontaneous scattering rate at trap center for far-detuned light.
+    Two-level far-detuned formula:
+        Γ_sc = (Γ / |Δ|) * |U| / ħ
+    with Δ in angular frequency and U = trapdepth in Joules.
+    """
+    return (Gamma / np.abs(detuning)) * np.abs(trapdepth) / hbar
 
 def Gamma_bg(rate=0.1):
     '''
