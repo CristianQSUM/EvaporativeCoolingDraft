@@ -107,6 +107,21 @@ def Gamma_bg(rate=0.1):
     There is a clever way to numerically estimate this, see pages 106-107 of O'Hara's Thesis
     '''
     return(rate)
+
+def N_dot_only_ev(N, T, trap_depth, geometric_frequency):
+    '''
+    To compare with true evaporation.
+    '''
+    dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency))N
+    return (dNdt)
+
+def T_dot_only_ev(N, T, ModulationTerm, trap_depth, geometric_frequency, RecoilEnergy=E_r):
+    #Modulation term is omega_bar_dot_over_omega_bar
+    gammaev = Gamma_ev(N, T, trap_depth, geometric_frequency)
+    eta = eta_ev(T, trap_depth)
+    Efficiency = (eta + (eta-5)/(eta-4) - 3)
+    dTdt = -((gammaev/3)*Efficiency - ModulationTerm)*T
+    return(dTdt)
         
 def N_dot(N, T, trap_depth, geometric_frequency):
     '''
