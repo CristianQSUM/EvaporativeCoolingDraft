@@ -1,5 +1,5 @@
 #Demo.py
-#Updated April 14th, 2026
+#This setup is unoptimized
 import numpy as np
 import scipy.constants as constants
 from scipy.constants import pi, speed_of_light as cLight, h, atomic_mass, Boltzmann, epsilon_0, hbar
@@ -7,9 +7,11 @@ from scipy.integrate import simpson as simps
 import matplotlib.pyplot as plt
 
 #Assuming you have SimpleSpatialModulation.py, EvaporativeFunctions.py, CrossedDipoleTrap.py
+
 import EvaporativeFunctions as ef
 from SimpleSpatialModulation import f_U, f_omega
 from CrossedDipoleTrap import CrossedDipoleTrap
+
 
 a_0 = constants.physical_constants['Bohr radius'][0]
 a = 98*a_0
@@ -97,24 +99,25 @@ axs[0, 1].plot(t_array[1:], unmodomega_x[1:], label='Unmodulated Omega_x')
 axs[0, 1].plot(t_array[1:], mod_omega_x[1:], label='Modulated Omega_x')
 axs[0, 1].set_title('Omega_x')
 axs[0, 1].set_xlabel('Time (s)')
-axs[0, 1].set_ylabel('Frequency (Hz)')
+axs[0, 1].set_ylabel('Frequency (rad/s)')
 axs[0, 1].legend()
 axs[1, 0].plot(t_array[1:], unmodomega_y[1:], label='Unmodulated Omega_y')
 axs[1, 0].plot(t_array[1:], mod_omega_y[1:], label='Modulated Omega_y')
 axs[1, 0].set_title('Omega_y')
 axs[1, 0].set_xlabel('Time (s)')
-axs[1, 0].set_ylabel('Frequency (Hz)')
+axs[1, 0].set_ylabel('Frequency (rad/s)')
 axs[1, 0].legend()
 axs[1, 1].plot(t_array[1:], unmodomega_z[1:], label='Unmodulated Omega_z')
 axs[1, 1].plot(t_array[1:], mod_omega_z[1:], label='Modulated Omega_z')
 axs[1, 1].set_title('Omega_z')
 axs[1, 1].set_xlabel('Time (s)')
-axs[1, 1].set_ylabel('Frequency (Hz)')
+axs[1, 1].set_ylabel('Frequency (rad/s)')
 axs[1, 1].legend()
 plt.suptitle('Trap Depth and Frequencies')
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.savefig('Demo_Trap_Depth_and_Frequencies.png')
 plt.show()
-plt.savefig('Trap_Depth_and_Frequencies.png')
+
 
 #Solving for T and N based on the above parameters
 from scipy.integrate import solve_ivp
@@ -207,6 +210,7 @@ axs[1,0].set_ylabel('Temperature Change')
 axs[1,0].legend()
 plt.suptitle('Eta, PSD, Atom Loss, and Temperature Change')
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.savefig('Demo_Eta_PSD_Atom_Loss_and_Temperature_Change.png')
 plt.show()
 
 
@@ -245,6 +249,5 @@ axs[1, 1].legend()
 
 plt.suptitle('Number of Atoms and Temperature')
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.savefig('Demo_Number_of_Atoms_and_Temperature.png')
 plt.show()
-
-plt.savefig('Number_of_Atoms_and_Temperature.png')
