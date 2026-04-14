@@ -31,7 +31,7 @@ def phase_space_density(N, T, geometric, k_Boltz = Boltzmann, h=h):
     Phase space density in the harmonic limit as in pg. 258 of O'Hara's thesis.
     https://jet.physics.ncsu.edu/theses/pdf/OHara.pdf
     '''
-    traposcfreq = geometric/(2*np.pi) #Converting to Hz from rads/s, see page 100 of O'Hara's Thesis
+    traposcfreq = geometric #/(2*np.pi) #Converting to Hz from rads/s if the frequency is not already in rads/s, currently commented out
     insideterm = (h*traposcfreq)/(k_Boltz*T)
     psd = N*np.power(insideterm, 3)
     return(psd)
