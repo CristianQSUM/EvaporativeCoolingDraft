@@ -112,7 +112,7 @@ def N_dot_only_ev(N, T, trap_depth, geometric_frequency):
     '''
     To compare with true evaporation.
     '''
-    dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency))N
+    dNdt = -(Gamma_ev(N, T, trap_depth, geometric_frequency))*N
     return (dNdt)
 
 def T_dot_only_ev(N, T, ModulationTerm, trap_depth, geometric_frequency, RecoilEnergy=E_r):
